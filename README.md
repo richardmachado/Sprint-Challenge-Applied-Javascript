@@ -46,7 +46,7 @@ A Nodelist doesn't  have the functionality of an Array, so you can't use forEach
 
 5. What is a component?
 
-Reusable code that can be used to  build elements over and over again.
+Reusable code that can be used to build elements over and over again.
 
 ### Git Set up
 

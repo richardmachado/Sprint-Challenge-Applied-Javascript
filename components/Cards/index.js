@@ -19,65 +19,63 @@
 //
 // Create a card for each of the articles and add the card to the DOM.
 
-const cards = document.querySelector('.cards-container');
+function cardMaker(headlineContent, authorImage, authorsName){
+    card = document.createElement('div');
+    headline = document.createElement('div');
+    author = document.createElement('div');
+    imgContainer = document.createElement('div');
+    authorImg = document.createElement('img');
+    authorName = document.createElement('span');
 
-// INFO HERE IS WITHIN THE OBJECTS 
-function newCard(info) {
-    // CREATE ELEMENTS
-    const
-        card = document.createElement('div'),
-        cardHeadline = document.createElement('div'),
-        AuthorInfo = document.createElement('div'),
-        ImgContainer = document.createElement('div'),
-        Img = document.createElement('img'),
-        Author = document.createElement('span');
-
-    // ADD CLASSES
     card.classList.add('card');
-    cardHeadline.classList.add('headline');
-    AuthorInfo.classList.add('author');
-    ImgContainer.classList.add('img-container');
+    headline.classList.add('headline');
+    author.classList.add('author');
+    imgContainer.classList.add('img-container');
 
-    // ADD CONTENT
-    cardHeadline.textContent = `${info.headline}`;
-    Img.src = `${info.authorPhoto}`;
-    Author.textContent = `By ${info.authorName}`;
-
-    // APPEND
-    card.appendChild(cardHeadline);
-    card.appendChild(AuthorInfo);
-    AuthorInfo.appendChild(ImgContainer);
-    ImgContainer.appendChild(Img);
-    AuthorInfo.appendChild(Author);
+    headline.textContent = headlineContent;
+    authorImg.src = authorImage;
+    authorName.textContent = authorsName;
 
     
-    // RETURN
+
+    card.appendChild(headline);
+    card.appendChild(author);
+    author.appendChild(imgContainer);
+    imgContainer.appendChild(authorImg);
+    author.appendChild(authorName);
+
     return card;
 }
 
-// USE .FOREACH FOR THE ARRAY (RESPONSE>DATA>ARTICLES>ITEMS[ARRAY]>INFO{OBJECTS})
-// USE THIS. TO PULL THE ARRAY'S OBJECTS
-// IF .FOREACH AXIOS -> CREATE NAME FOR ARRAY
-// IF .FOREACH WITHIN AXIOS CONTAINING .THEN -> GET TO ITEMS
-
-
-// GET REQUEST
-axios.get(`https://lambda-times-backend.herokuapp.com/articles`)
-
-    // PROMISE
-    .then(response => {
-
-        const obj = Object.keys(response.data.articles);
-        for (let i = 0; i < obj.length; i++) {
-            response.data.articles[obj[i]].forEach(item => {
-                cards.appendChild(newCard(item))
-            })
-        }
-
-
+cardContainer = document.querySelector('.cards-container');
+axios
+    .get('https://lambda-times-backend.herokuapp.com/articles')
+    .then( response => {
+        console.log(response.data);
+        response.data.articles.bootstrap.forEach( i => {
+            let newCard = cardMaker(i.headline, i.authorPhoto, i.authorName);
+            cardContainer.appendChild(newCard);
+        })
+        response.data.articles.javascript.forEach( i => {
+            let newCard = cardMaker(i.headline, i.authorPhoto, i.authorName);
+            cardContainer.appendChild(newCard);
+        })
+        response.data.articles.jquery.forEach( i => {
+            let newCard = cardMaker(i.headline, i.authorPhoto, i.authorName);
+            cardContainer.appendChild(newCard);
+        })
+        response.data.articles.node.forEach( i => {
+            let newCard = cardMaker(i.headline, i.authorPhoto, i.authorName);
+            cardContainer.appendChild(newCard);
+        })
+        response.data.articles.technology.forEach( i => {
+            let newCard = cardMaker(i.headline, i.authorPhoto, i.authorName);
+            cardContainer.appendChild(newCard);
+        })
     })
-    // CATCH ERRORS
-    .catch(error => {
-        console.log('ERROR with the data.', error)
-    })
+    .catch( error => {
+        console.log("Error:", err);
+    })   
+
+
     
